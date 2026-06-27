@@ -1,0 +1,18 @@
+name = "pvpn-edge"
+main = "index.js"
+compatibility_date = "2024-11-01"
+
+# --------------------------------------------------------------------
+# پیکربندی منبع — این مقادیر فقط سمت سرور (Worker) هستند و هرگز به
+# مرورگر کاربر نمی‌رسند. برای امنیت بیشتر، آنها را به‌صورت Secret ست کنید:
+#
+#   wrangler secret put REPO_OWNER
+#   wrangler secret put REPO_NAME
+#   wrangler secret put GH_TOKEN     # اختیاری (افزایش rate-limit)
+#
+# اگر از Secret استفاده کنید، بخش [vars] زیر را خالی/حذف کنید.
+# --------------------------------------------------------------------
+[vars]
+ASSET_REGEX = "\\.apk$"
+# REPO_OWNER و REPO_NAME را اینجا ننویسید اگر می‌خواهید کاملا امن بماند؛
+# به‌جایش از `wrangler secret put` استفاده کنید.
