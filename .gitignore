@@ -1,4 +1,14 @@
-node_modules/
-.wrangler/
-.dev.vars
+# logs & temp
 *.log
+server.log
+pw_install.log
+.DS_Store
+
+# node
+node_modules/
+worker/node_modules/
+worker/.wrangler/
+
+# editor
+.vscode/
+.idea/

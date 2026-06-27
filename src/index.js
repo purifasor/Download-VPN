@@ -11,6 +11,17 @@
 //  SRC_BUILD_DIR, APP_NAME, GH_TOKEN.
 // ============================================================================
 
+import { PAGE_HTML } from "./page.js";
+import { ICON_B64 } from "./icon.js";
+
+function b64ToBytes(b64) {
+  const bin = atob(b64);
+  const len = bin.length;
+  const bytes = new Uint8Array(len);
+  for (let i = 0; i < len; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes;
+}
+
 const DEFAULTS = {
   SRC_OWNER: "aptixzero",
   SRC_REPO: "PRF_VPN",
@@ -148,7 +159,38 @@ export default {
     if (url.pathname === "/api/version") return handleVersion(env);
     if (url.pathname === "/api/download") return handleDownload(request, env);
 
-    // Everything else -> static assets (the download page)
-    return env.ASSETS.fetch(request);
+    // App icon (embedded, self-contained)
+    if (url.pathname === "/icon.png" || url.pathname === "/apple-touch-icon.png") {
+      return new Response(b64ToBytes(ICON_B64), {
+        headers: {
+          "Content-Type": "image/png",
+          "Cache-Control": "public, max-age=86400",
+        },
+      });
+    }
+
+    // The download page (self-contained, no external asset dependency)
+    if (url.pathname === "/" || url.pathname === "/index.html") {
+      return new Response(PAGE_HTML, {
+        headers: {
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "no-store",
+          "X-Content-Type-Options": "nosniff",
+          "X-Frame-Options": "DENY",
+          "Referrer-Policy": "no-referrer",
+          "X-Robots-Tag": "noindex",
+        },
+      });
+    }
+
+    // Fallback to static assets if present, else the page.
+    if (env.ASSETS) {
+      try {
+        return await env.ASSETS.fetch(request);
+      } catch (_) {}
+    }
+    return new Response(PAGE_HTML, {
+      headers: { "Content-Type": "text/html; charset=utf-8" },
+    });
   },
 };

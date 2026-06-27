@@ -1,0 +1,306 @@
+export const PAGE_HTML = `<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#05010a" />
+<title>Professor VPN — دانلود</title>
+<meta name="description" content="آخرین نسخه را دریافت کنید." />
+<link rel="icon" href="/icon.png" />
+<link rel="apple-touch-icon" href="/icon.png" />
+<style>
+:root{
+  --bg:#05010a;
+  --bg2:#0b0414;
+  --purple:#a855f7;
+  --purple-deep:#7c3aed;
+  --red:#ff2d55;
+  --red-neon:#ff0040;
+  --magenta:#e635ff;
+  --text:#f3eaff;
+  --muted:#9a86c4;
+  --glass:rgba(168,85,247,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:"Vazirmatn","Segoe UI",Tahoma,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  min-height:100dvh;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px 16px;
+}
+
+/* ---------- animated neon background ---------- */
+.bg-glow{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;animation:float 14s ease-in-out infinite}
+.orb.p1{width:480px;height:480px;background:var(--purple-deep);top:-140px;right:-120px}
+.orb.p2{width:420px;height:420px;background:var(--red-neon);bottom:-160px;left:-120px;animation-delay:-5s;opacity:.4}
+.orb.p3{width:360px;height:360px;background:var(--magenta);top:40%;left:50%;transform:translate(-50%,-50%);animation-delay:-9s;opacity:.3}
+@keyframes float{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(30px,-40px) scale(1.08)}
+  66%{transform:translate(-25px,25px) scale(.95)}
+}
+.grid-overlay{
+  position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.16;
+  background-image:linear-gradient(rgba(168,85,247,.25) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(168,85,247,.25) 1px,transparent 1px);
+  background-size:46px 46px;
+  mask-image:radial-gradient(circle at 50% 40%,#000 0%,transparent 75%);
+  -webkit-mask-image:radial-gradient(circle at 50% 40%,#000 0%,transparent 75%);
+}
+.scanline{
+  position:fixed;left:0;right:0;height:2px;z-index:0;pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--red-neon),transparent);
+  opacity:.4;animation:scan 7s linear infinite;
+}
+@keyframes scan{0%{top:-5%}100%{top:105%}}
+
+/* ---------- card ---------- */
+.wrap{position:relative;z-index:2;width:100%;max-width:430px;animation:rise .8s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+
+.card{
+  position:relative;
+  background:linear-gradient(160deg,rgba(20,7,34,.92),rgba(8,3,16,.92));
+  border:1px solid rgba(168,85,247,.28);
+  border-radius:30px;
+  padding:30px 24px 26px;
+  backdrop-filter:blur(14px);
+  box-shadow:0 0 1px rgba(168,85,247,.6),
+             0 22px 70px rgba(124,58,237,.32),
+             0 0 90px rgba(255,0,64,.12) inset;
+  overflow:hidden;
+}
+.card::before{
+  content:"";position:absolute;inset:0;border-radius:30px;padding:1px;
+  background:linear-gradient(130deg,var(--purple),transparent 35%,transparent 65%,var(--red-neon));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:.7;pointer-events:none;animation:borderPulse 4s ease-in-out infinite;
+}
+@keyframes borderPulse{0%,100%{opacity:.45}50%{opacity:.9}}
+
+/* phone mockup holding the icon */
+.phone{
+  width:118px;height:118px;margin:0 auto 18px;position:relative;
+  display:flex;align-items:center;justify-content:center;
+  animation:bob 5s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.phone .halo{
+  position:absolute;inset:-22px;border-radius:34px;
+  background:conic-gradient(from 0deg,var(--purple),var(--red-neon),var(--magenta),var(--purple));
+  filter:blur(20px);opacity:.7;animation:spin 8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.phone .screen{
+  position:relative;width:100%;height:100%;border-radius:28px;overflow:hidden;
+  border:2px solid rgba(168,85,247,.5);
+  box-shadow:0 0 24px rgba(255,0,64,.45),0 0 40px rgba(168,85,247,.4);
+  background:#0a0312;
+}
+.phone .screen img{width:100%;height:100%;object-fit:cover;display:block}
+
+.title{
+  text-align:center;font-size:30px;font-weight:800;letter-spacing:.5px;
+  background:linear-gradient(92deg,#fff,var(--purple) 45%,var(--red-neon));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 0 24px rgba(168,85,247,.35);
+}
+.subtitle{text-align:center;color:var(--muted);font-size:13px;margin-top:6px;letter-spacing:2px}
+
+.badges{display:flex;gap:10px;justify-content:center;margin:20px 0 22px;flex-wrap:wrap}
+.badge{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:13px;font-weight:600;padding:9px 15px;border-radius:14px;
+  background:var(--glass);border:1px solid rgba(168,85,247,.3);
+  color:var(--text);
+}
+.badge .dot{width:8px;height:8px;border-radius:50%;background:var(--red-neon);
+  box-shadow:0 0 10px var(--red-neon);animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.35}}
+.badge.ver{color:#fff;border-color:rgba(255,0,64,.5);background:rgba(255,0,64,.1)}
+
+/* download button */
+.btn{
+  position:relative;display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:18px;border:none;cursor:pointer;
+  font-family:inherit;font-size:18px;font-weight:800;color:#fff;
+  border-radius:18px;overflow:hidden;
+  background:linear-gradient(100deg,var(--purple-deep),var(--red-neon));
+  box-shadow:0 0 24px rgba(255,0,64,.5),0 0 40px rgba(124,58,237,.4);
+  transition:transform .15s,box-shadow .25s;
+}
+.btn:active{transform:scale(.97)}
+.btn:hover{box-shadow:0 0 36px rgba(255,0,64,.75),0 0 60px rgba(124,58,237,.6)}
+.btn::after{
+  content:"";position:absolute;top:0;left:-60%;width:50%;height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.5),transparent);
+  transform:skewX(-20deg);animation:sheen 3.2s infinite;
+}
+@keyframes sheen{0%{left:-60%}55%,100%{left:140%}}
+.btn[disabled]{opacity:.6;cursor:wait}
+.btn svg{width:22px;height:22px}
+
+/* progress */
+.progress-wrap{margin-top:16px;display:none}
+.progress-wrap.show{display:block;animation:rise .4s both}
+.bar{height:12px;border-radius:10px;background:rgba(168,85,247,.15);overflow:hidden;border:1px solid rgba(168,85,247,.3)}
+.bar > i{display:block;height:100%;width:0%;border-radius:10px;
+  background:linear-gradient(90deg,var(--purple),var(--red-neon));
+  box-shadow:0 0 14px var(--red-neon);transition:width .25s}
+.pinfo{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:8px}
+
+.foot{text-align:center;color:var(--muted);font-size:11px;margin-top:22px;line-height:1.9;opacity:.8}
+.foot b{color:var(--purple)}
+
+.note{
+  margin-top:14px;text-align:center;font-size:12px;color:var(--muted);
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.shield{width:14px;height:14px;fill:var(--purple)}
+
+@media (max-width:380px){
+  .title{font-size:26px}.card{padding:26px 18px 22px}
+}
+</style>
+</head>
+<body>
+  <div class="bg-glow">
+    <div class="orb p1"></div><div class="orb p2"></div><div class="orb p3"></div>
+  </div>
+  <div class="grid-overlay"></div>
+  <div class="scanline"></div>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="phone">
+        <div class="halo"></div>
+        <div class="screen"><img src="/icon.png" alt="app" /></div>
+      </div>
+
+      <h1 class="title">Professor VPN</h1>
+      <div class="subtitle">SECURE · FAST · ANONYMOUS</div>
+
+      <div class="badges">
+        <span class="badge ver" id="verBadge"><span class="dot"></span>v<span id="ver">…</span></span>
+        <span class="badge" id="sizeBadge">…</span>
+        <span class="badge">Android</span>
+      </div>
+
+      <button class="btn" id="dlBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
+        <span id="btnText">دانلود</span>
+      </button>
+
+      <div class="progress-wrap" id="prog">
+        <div class="bar"><i id="barFill"></i></div>
+        <div class="pinfo"><span id="pPct">0%</span><span id="pInfo">آماده‌سازی…</span></div>
+      </div>
+
+      <div class="note">
+        <svg class="shield" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3z"/></svg>
+        دانلود امن و بهینه برای اینترنت ضعیف
+      </div>
+
+      <div class="foot">
+        به‌روزرسانی خودکار آخرین نسخه · <b id="updated">آنلاین</b>
+      </div>
+    </div>
+  </div>
+
+<script>
+const \$ = (id)=>document.getElementById(id);
+let META = null;
+
+async function loadVersion(){
+  try{
+    const r = await fetch('/api/version',{cache:'no-store'});
+    const d = await r.json();
+    if(!d.ok) throw 0;
+    META = d;
+    \$('ver').textContent = d.version;
+    \$('sizeBadge').textContent = d.sizeText || '';
+    \$('updated').textContent = 'نسخه فعلی: v'+d.version;
+    document.title = d.name + ' v' + d.version + ' — دانلود';
+  }catch(e){
+    \$('ver').textContent = '—';
+    \$('sizeBadge').textContent = 'آفلاین';
+    \$('updated').textContent = 'اتصال دوباره…';
+    // retry quietly
+    setTimeout(loadVersion, 4000);
+  }
+}
+
+// Robust streamed download with progress + resume-friendly fallback.
+async function download(){
+  if(!META){ await loadVersion(); if(!META) return; }
+  const btn = \$('dlBtn'), prog = \$('prog'), fill = \$('barFill');
+  btn.disabled = true; \$('btnText').textContent = 'در حال دانلود…';
+  prog.classList.add('show');
+  \$('pInfo').textContent = 'اتصال به سرور…';
+
+  const fileName = META.fileName;
+  const path = META.downloadPath;
+
+  try{
+    const resp = await fetch(path, {cache:'no-store'});
+    if(!resp.ok) throw new Error('net');
+    const total = +(resp.headers.get('Content-Length')) || META.size || 0;
+    const reader = resp.body.getReader();
+    const chunks = []; let received = 0;
+
+    while(true){
+      const {done, value} = await reader.read();
+      if(done) break;
+      chunks.push(value); received += value.length;
+      if(total){
+        const pct = Math.min(100, Math.round(received/total*100));
+        fill.style.width = pct+'%';
+        \$('pPct').textContent = pct+'%';
+        \$('pInfo').textContent = fmt(received)+' / '+fmt(total);
+      }else{
+        \$('pInfo').textContent = fmt(received);
+      }
+    }
+
+    const blob = new Blob(chunks,{type:'application/vnd.android.package-archive'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = fileName; document.body.appendChild(a); a.click();
+    a.remove(); setTimeout(()=>URL.revokeObjectURL(url), 4000);
+
+    fill.style.width='100%'; \$('pPct').textContent='100%';
+    \$('pInfo').textContent='دانلود کامل شد ✓';
+    \$('btnText').textContent='دانلود دوباره';
+  }catch(e){
+    // Fallback: let the browser / download-manager handle it (resumable).
+    \$('pInfo').textContent='ادامه با مرورگر…';
+    const a=document.createElement('a');
+    a.href=path; a.download=fileName; document.body.appendChild(a); a.click(); a.remove();
+    \$('btnText').textContent='دانلود دوباره';
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+function fmt(b){
+  const mb=b/1048576;
+  return mb>=1 ? mb.toFixed(1)+' MB' : (b/1024).toFixed(0)+' KB';
+}
+
+\$('dlBtn').addEventListener('click', download);
+loadVersion();
+// keep version fresh (auto-update) every 5 min
+setInterval(loadVersion, 300000);
+</script>
+</body>
+</html>
+`;
