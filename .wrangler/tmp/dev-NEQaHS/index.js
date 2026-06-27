@@ -80,6 +80,7 @@ body{
   opacity:.4;animation:scan 7s linear infinite;
 }
 @keyframes scan{0%{top:-5%}100%{top:105%}}
+#fx{position:fixed;inset:0;z-index:0;pointer-events:none}
 
 /* ---------- card ---------- */
 .wrap{position:relative;z-index:2;width:100%;max-width:430px;animation:rise .8s cubic-bezier(.2,.8,.2,1) both}
@@ -134,6 +135,15 @@ body{
   text-shadow:0 0 24px rgba(168,85,247,.35);
 }
 .subtitle{text-align:center;color:var(--muted);font-size:13px;margin-top:6px;letter-spacing:2px}
+
+/* connection status + signal bars */
+.conn{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;font-size:12px;color:#7dffc0;letter-spacing:.5px}
+.conn .pulse{width:9px;height:9px;border-radius:50%;background:#23ff9c;box-shadow:0 0 12px #23ff9c;animation:blink 1.3s infinite}
+.signal{display:flex;align-items:flex-end;gap:4px;height:18px;margin-inline-start:4px}
+.signal i{width:4px;border-radius:3px;background:linear-gradient(to top,var(--purple),var(--magenta));box-shadow:0 0 6px rgba(230,53,255,.6);animation:wave 1.4s ease-in-out infinite}
+.signal i:nth-child(1){height:35%}.signal i:nth-child(2){height:55%;animation-delay:.15s}
+.signal i:nth-child(3){height:78%;animation-delay:.3s}.signal i:nth-child(4){height:100%;animation-delay:.45s}
+@keyframes wave{0%,100%{transform:scaleY(.55)}50%{transform:scaleY(1.1)}}
 
 .badges{display:flex;gap:10px;justify-content:center;margin:20px 0 22px;flex-wrap:wrap}
 .badge{
@@ -197,6 +207,7 @@ body{
   </div>
   <div class="grid-overlay"></div>
   <div class="scanline"></div>
+  <canvas id="fx"></canvas>
 
   <div class="wrap">
     <div class="card">
@@ -207,6 +218,12 @@ body{
 
       <h1 class="title">Professor VPN</h1>
       <div class="subtitle">SECURE \xB7 FAST \xB7 ANONYMOUS</div>
+
+      <div class="conn">
+        <span class="pulse"></span>
+        <span>\u0627\u062A\u0635\u0627\u0644 \u0627\u0645\u0646 \u0628\u0631\u0642\u0631\u0627\u0631 \u0627\u0633\u062A</span>
+        <span class="signal"><i></i><i></i><i></i><i></i></span>
+      </div>
 
       <div class="badges">
         <span class="badge ver" id="verBadge"><span class="dot"></span>v<span id="ver">\u2026</span></span>
@@ -319,6 +336,35 @@ $('dlBtn').addEventListener('click', download);
 loadVersion();
 // keep version fresh (auto-update) every 5 min
 setInterval(loadVersion, 300000);
+
+/* ---------- floating neon particles ---------- */
+(function(){
+  const c = $('fx'); if(!c) return;
+  const x = c.getContext('2d');
+  let w,h,ps; const dpr = Math.min(window.devicePixelRatio||1, 2);
+  const COLORS = ['#a855f7','#e635ff','#ff0040'];
+  const N = window.innerWidth < 600 ? 26 : 46;
+  function size(){ w=c.width=innerWidth*dpr; h=c.height=innerHeight*dpr; }
+  function seed(){ ps = Array.from({length:N}, ()=>({
+    x:Math.random()*w, y:Math.random()*h,
+    r:(Math.random()*1.7+.5)*dpr,
+    vx:(Math.random()-.5)*.22*dpr, vy:(Math.random()-.5)*.22*dpr,
+    col:COLORS[(Math.random()*COLORS.length)|0], a:Math.random()*.5+.2
+  })); }
+  function tick(){
+    x.clearRect(0,0,w,h);
+    for(const p of ps){
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>w)p.vx*=-1; if(p.y<0||p.y>h)p.vy*=-1;
+      x.globalAlpha=p.a; x.fillStyle=p.col;
+      x.shadowBlur=9*dpr; x.shadowColor=p.col;
+      x.beginPath(); x.arc(p.x,p.y,p.r,0,6.283); x.fill();
+    }
+    x.globalAlpha=1; requestAnimationFrame(tick);
+  }
+  size(); seed(); tick();
+  addEventListener('resize', ()=>{ size(); seed(); });
+})();
 <\/script>
 </body>
 </html>
