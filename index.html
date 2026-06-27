@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#05010a">
+<title>Professor VPN</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<style>
+:root{
+  --bg:#05010a;--purple:#a855f7;--purple-deep:#7c3aed;
+  --red:#ff2d55;--red-neon:#ff0040;--magenta:#e635ff;
+  --text:#f3eaff;--muted:#9a86c4;--glass:rgba(168,85,247,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:Tahoma,"Segoe UI",Arial,sans-serif;
+  background:#05010a;color:#f3eaff;overflow-x:hidden;
+  min-height:100vh;position:relative;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  padding:24px 16px;
+}
+/* background glows (lightweight, GPU-friendly) */
+.bg{position:fixed;inset:0;top:0;left:0;right:0;bottom:0;z-index:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5}
+.o1{width:60vw;max-width:460px;height:60vw;max-height:460px;background:#7c3aed;top:-12%;right:-12%;-webkit-animation:f1 16s ease-in-out infinite;animation:f1 16s ease-in-out infinite}
+.o2{width:55vw;max-width:420px;height:55vw;max-height:420px;background:#ff0040;bottom:-14%;left:-12%;opacity:.38;-webkit-animation:f2 18s ease-in-out infinite;animation:f2 18s ease-in-out infinite}
+@-webkit-keyframes f1{0%,100%{-webkit-transform:translate(0,0)}50%{-webkit-transform:translate(20px,-30px)}}
+@keyframes f1{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-30px)}}
+@-webkit-keyframes f2{0%,100%{-webkit-transform:translate(0,0)}50%{-webkit-transform:translate(-18px,18px)}}
+@keyframes f2{0%,100%{transform:translate(0,0)}50%{transform:translate(-18px,18px)}}
+.grid{position:fixed;inset:0;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;opacity:.13;
+  background-image:linear-gradient(rgba(168,85,247,.25) 1px,transparent 1px),linear-gradient(90deg,rgba(168,85,247,.25) 1px,transparent 1px);
+  background-size:46px 46px}
+
+.wrap{position:relative;z-index:2;width:100%;max-width:420px}
+.card{position:relative;background:#0c0518;
+  background:linear-gradient(160deg,rgba(20,7,34,.95),rgba(8,3,16,.95));
+  border:1px solid rgba(168,85,247,.30);border-radius:26px;
+  padding:30px 22px 24px;
+  box-shadow:0 18px 60px rgba(124,58,237,.30)}
+
+.icon{width:108px;height:108px;margin:0 auto 16px;position:relative;
+  display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;
+  -webkit-animation:bob 5s ease-in-out infinite;animation:bob 5s ease-in-out infinite}
+@-webkit-keyframes bob{0%,100%{-webkit-transform:translateY(0)}50%{-webkit-transform:translateY(-8px)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.icon .halo{position:absolute;top:-18px;left:-18px;right:-18px;bottom:-18px;border-radius:30px;
+  background:#a855f7;background:conic-gradient(from 0deg,#a855f7,#ff0040,#e635ff,#a855f7);
+  filter:blur(16px);opacity:.65;
+  -webkit-animation:spin 9s linear infinite;animation:spin 9s linear infinite}
+@-webkit-keyframes spin{to{-webkit-transform:rotate(360deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.icon .scr{position:relative;width:100%;height:100%;border-radius:24px;overflow:hidden;
+  border:2px solid rgba(168,85,247,.5);background:#0a0312;
+  box-shadow:0 0 20px rgba(255,0,64,.4)}
+.icon .scr img{width:100%;height:100%;display:block;-o-object-fit:cover;object-fit:cover}
+
+h1{text-align:center;font-size:28px;font-weight:bold;color:#fff;
+  text-shadow:0 0 18px rgba(168,85,247,.55),0 0 26px rgba(255,0,64,.25)}
+.sub{text-align:center;color:#9a86c4;font-size:12px;margin-top:6px;letter-spacing:2px}
+
+.badges{text-align:center;margin:18px 0 20px;font-size:0}
+.badge{display:inline-block;font-size:13px;font-weight:bold;margin:4px;
+  padding:8px 13px;border-radius:12px;background:rgba(168,85,247,.08);
+  border:1px solid rgba(168,85,247,.3);color:#f3eaff;vertical-align:middle}
+.badge.ver{color:#fff;border-color:rgba(255,0,64,.5);background:rgba(255,0,64,.12)}
+.badge .dot{display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:#ff0040;margin-left:6px;vertical-align:middle;
+  box-shadow:0 0 8px #ff0040}
+
+.btn{display:block;width:100%;padding:17px;border:0;cursor:pointer;
+  text-align:center;text-decoration:none;
+  font-family:inherit;font-size:18px;font-weight:bold;color:#fff;
+  border-radius:16px;background:#7c3aed;
+  background:linear-gradient(100deg,#7c3aed,#ff0040);
+  box-shadow:0 0 22px rgba(255,0,64,.45),0 0 36px rgba(124,58,237,.35);
+  -webkit-transition:-webkit-transform .12s;transition:transform .12s}
+.btn:active{-webkit-transform:scale(.98);transform:scale(.98)}
+.btn .ic{display:inline-block;vertical-align:middle;margin-left:8px;font-size:20px;line-height:1}
+
+.alt{display:block;text-align:center;margin-top:12px;font-size:13px;
+  color:#9a86c4;text-decoration:none}
+.alt:hover{color:#a855f7}
+
+.note{margin-top:16px;text-align:center;font-size:12px;color:#9a86c4;line-height:1.8}
+.foot{text-align:center;color:#9a86c4;font-size:11px;margin-top:18px;opacity:.8}
+.foot b{color:#a855f7}
+
+@media (max-width:360px){h1{font-size:24px}.card{padding:26px 16px 20px}}
+</style>
+</head>
+<body>
+  <div class="bg"><div class="orb o1"></div><div class="orb o2"></div></div>
+  <div class="grid"></div>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="icon"><div class="halo"></div><div class="scr"><img src="icon.png" alt="Professor VPN"></div></div>
+      <h1>Professor VPN</h1>
+      <div class="sub">SECURE &middot; FAST &middot; ANONYMOUS</div>
+
+      <div class="badges">
+        <span class="badge ver">v<span id="ver">4.5</span><span class="dot"></span></span>
+        <span class="badge" id="size">Android</span>
+      </div>
+
+      <a class="btn" id="dl" href="#" rel="noopener">
+        <span class="ic">&#x2B07;</span>دانلود
+      </a>
+      <a class="alt" id="alt" href="#" rel="noopener" style="display:none">اگر دانلود شروع نشد، اینجا بزنید</a>
+
+      <div class="note">دانلود امن &middot; سازگار با اینترنت ضعیف</div>
+      <div class="foot">به‌روزرسانی خودکار &middot; <b id="st">آماده</b></div>
+    </div>
+  </div>
+
+<script>
+/* سبک، سازگار با مرورگرهای قدیمی. هیچ بلوک‌کننده‌ای ندارد. */
+(function(){
+  function $(id){return document.getElementById(id);}
+
+  /* رمزگشایی توکن‌های منبع (base64 + reverse) فقط در زمان اجرا */
+  function dec(s){
+    try{
+      var b = (typeof atob==="function") ? atob(s) : "";
+      var out="", i;
+      for(i=b.length-1;i>=0;i--){ out+=b.charAt(i); }
+      return out;
+    }catch(e){ return ""; }
+  }
+  var T = ["b3JlenhpdHBh","TlBWX0ZSUA==","bmlhbQ==","ZGxpdWI="];
+  var O=dec(T[0]), R=dec(T[1]), B=dec(T[2]), D=dec(T[3]);
+
+  /* مقادیر پیش‌فرض تا سایت بدون انتظار برای شبکه فوراً کار کند */
+  var STATE = { version:"4.5", file:"ProfessorVPN-v4.5-universal.apk", size:0 };
+
+  /* میرورهای دانلود (همگی فایل‌های بزرگ ۶۰MB+ را با Resume پشتیبانی می‌کنند)
+     - پروکسی‌ها فیلتر را دور می‌زنند و روی نت معمولی هم سریع‌اند
+     - raw مستقیم به‌عنوان پشتیبان */
+  function mirrors(f){
+    var raw = "https://raw.githubusercontent.com/"+O+"/"+R+"/"+B+"/"+D+"/"+f;
+    return [
+      "https://ghproxy.net/"+raw,
+      "https://gh-proxy.com/"+raw,
+      raw,
+      "https://github.com/"+O+"/"+R+"/raw/"+B+"/"+D+"/"+f
+    ];
+  }
+
+  /* دکمه دانلود: مرورگر خودش فایل را می‌گیرد (بدون نگه‌داشتن در حافظه => بدون هنگ) */
+  function setLinks(){
+    var m = mirrors(STATE.file);
+    var dl = $("dl");
+    dl.setAttribute("href", m[0]);          /* پروکسی: دور زدن فیلتر + سریع */
+    dl.setAttribute("download", STATE.file);
+    var alt = $("alt");
+    alt.setAttribute("href", m[2]);          /* raw مستقیم به‌عنوان جایگزین */
+    alt.setAttribute("download", STATE.file);
+    alt.style.display = "block";
+  }
+
+  function human(b){
+    if(!b) return "Android";
+    var mb=b/1048576;
+    return (mb>=1 ? mb.toFixed(1)+" MB" : Math.round(b/1024)+" KB");
+  }
+
+  function apply(){
+    $("ver").firstChild ? ($("ver").innerHTML=STATE.version) : 0;
+    $("ver").innerHTML = STATE.version;
+    $("size").innerHTML = human(STATE.size);
+    document.title = "Professor VPN v"+STATE.version;
+    setLinks();
+  }
+
+  /* تشخیص خودکار آخرین نسخه — با timeout تا سایت هیچ‌وقت گیر نکند */
+  function loadVersion(){
+    if(!window.XMLHttpRequest) return;
+    var apiUrl = "https://api.github.com/repos/"+O+"/"+R+"/contents/"+D+"?ref="+B;
+    var urls = [
+      apiUrl,
+      "https://api.allorigins.win/raw?url="+encodeURIComponent(apiUrl)
+    ];
+    var idx = 0;
+    function tryOne(){
+      if(idx>=urls.length){ $("st").innerHTML="آخرین نسخه"; return; }
+      var u = urls[idx++];
+      var x = new XMLHttpRequest();
+      var done=false;
+      var to = setTimeout(function(){ if(!done){done=true; try{x.abort();}catch(e){} tryOne();} }, 6000);
+      x.open("GET", u, true);
+      x.onreadystatechange = function(){
+        if(x.readyState!==4 || done) return;
+        done=true; clearTimeout(to);
+        if(x.status>=200 && x.status<300){
+          var files;
+          try{ files = JSON.parse(x.responseText); }catch(e){ tryOne(); return; }
+          var best=null, bi=-1;
+          for(var i=0;i<files.length;i++){
+            var f=files[i];
+            if(f && f.type==="file" && /\.apk$/i.test(f.name)){
+              var mm=f.name.match(/v?(\d+)\.(\d+)(?:\.(\d+))?/i);
+              var a=mm?parseInt(mm[1],10):0, b=mm?parseInt(mm[2],10):0, c=(mm&&mm[3])?parseInt(mm[3],10):0;
+              var rank=a*1000000+b*1000+c;
+              if(rank>bi){ bi=rank; best=f; best._v=mm?(a+"."+b+(mm[3]?"."+c:"")):"0.0"; }
+            }
+          }
+          if(best){
+            STATE.version=best._v; STATE.file=best.name; STATE.size=best.size||0;
+            apply(); $("st").innerHTML="نسخه فعلی: v"+best._v;
+          }else{ $("st").innerHTML="آخرین نسخه"; }
+        }else{ tryOne(); }
+      };
+      try{ x.send(); }catch(e){ clearTimeout(to); tryOne(); }
+    }
+    tryOne();
+  }
+
+  /* راه‌اندازی فوری (سایت بلافاصله کار می‌کند) */
+  apply();
+  /* تشخیص نسخه در پس‌زمینه */
+  if(window.addEventListener){
+    window.addEventListener("load", loadVersion, false);
+  }else{
+    loadVersion();
+  }
+})();
+</script>
+</body>
+</html>
