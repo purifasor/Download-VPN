@@ -4,8 +4,8 @@
   "private": true,
   "description": "Dark neon auto-updating download page (serverless, source-hidden)",
   "scripts": {
-    "dev": "wrangler pages dev public --port 3000 --ip 0.0.0.0",
-    "deploy": "wrangler pages deploy public"
+    "dev": "wrangler dev --port 3000 --ip 0.0.0.0",
+    "deploy": "wrangler deploy"
   },
   "devDependencies": {
     "wrangler": "^3.78.0"
