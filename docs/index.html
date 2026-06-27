@@ -140,16 +140,16 @@ h1{text-align:center;font-size:28px;font-weight:bold;color:#fff;
   /* مقادیر پیش‌فرض تا سایت بدون انتظار برای شبکه فوراً کار کند */
   var STATE = { version:"4.5", file:"ProfessorVPN-v4.5-universal.apk", size:0 };
 
-  /* میرورهای دانلود — اول CDN سریع/بدون‌فیلتر، بعد پروکسی‌ها، آخر raw */
+  /* میرورهای دانلود (همگی فایل‌های بزرگ ۶۰MB+ را با Resume پشتیبانی می‌کنند)
+     - پروکسی‌ها فیلتر را دور می‌زنند و روی نت معمولی هم سریع‌اند
+     - raw مستقیم به‌عنوان پشتیبان */
   function mirrors(f){
     var raw = "https://raw.githubusercontent.com/"+O+"/"+R+"/"+B+"/"+D+"/"+f;
     return [
-      "https://cdn.jsdelivr.net/gh/"+O+"/"+R+"@"+B+"/"+D+"/"+f,
-      "https://fastly.jsdelivr.net/gh/"+O+"/"+R+"@"+B+"/"+D+"/"+f,
-      "https://gcore.jsdelivr.net/gh/"+O+"/"+R+"@"+B+"/"+D+"/"+f,
       "https://ghproxy.net/"+raw,
       "https://gh-proxy.com/"+raw,
-      raw
+      raw,
+      "https://github.com/"+O+"/"+R+"/raw/"+B+"/"+D+"/"+f
     ];
   }
 
@@ -157,10 +157,10 @@ h1{text-align:center;font-size:28px;font-weight:bold;color:#fff;
   function setLinks(){
     var m = mirrors(STATE.file);
     var dl = $("dl");
-    dl.setAttribute("href", m[0]);
+    dl.setAttribute("href", m[0]);          /* پروکسی: دور زدن فیلتر + سریع */
     dl.setAttribute("download", STATE.file);
     var alt = $("alt");
-    alt.setAttribute("href", m[3]); /* پروکسی به‌عنوان جایگزین */
+    alt.setAttribute("href", m[2]);          /* raw مستقیم به‌عنوان جایگزین */
     alt.setAttribute("download", STATE.file);
     alt.style.display = "block";
   }
