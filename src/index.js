@@ -12,7 +12,7 @@
 // ============================================================================
 
 import { PAGE_HTML } from "./page.js";
-import { ICON_B64 } from "./icon.js";
+import { ICON_B64, ICON_MIME } from "./icon.js";
 
 function b64ToBytes(b64) {
   const bin = atob(b64);
@@ -163,7 +163,7 @@ export default {
     if (url.pathname === "/icon.png" || url.pathname === "/apple-touch-icon.png") {
       return new Response(b64ToBytes(ICON_B64), {
         headers: {
-          "Content-Type": "image/png",
+          "Content-Type": ICON_MIME || "image/png",
           "Cache-Control": "public, max-age=86400",
         },
       });
